@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-creencast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "set NODE_PATH=.&& node server",
+    "start-unix": "NODE_PATH=. node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/sergey_bedulin/nodejs-screencast.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/sergey_bedulin/nodejs-screencast#readme"
+}

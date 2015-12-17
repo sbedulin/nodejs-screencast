@@ -1,4 +1,7 @@
-var db = require('./db');
+// Better local require() paths for Node.js
+// https://gist.github.com/branneman/8048520
+
+var db = require('db');
 db.connect();
 
 var User = require('./user');
