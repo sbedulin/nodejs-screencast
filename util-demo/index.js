@@ -1,1 +1,1 @@
-require('./inspect');
+require('./inherits');
