@@ -17,7 +17,8 @@
   "author": "",
   "license": "ISC",
   "homepage": "https://bitbucket.org/sergey_bedulin/nodejs-screencast#readme",
-  "devDependencies": {
-    "debug": "^2.2.0"
+  "dependencies": {
+    "debug": "^2.2.0",
+    "winston": "^2.1.1"
   }
 }

@@ -1,4 +1,8 @@
+# folders
 .git
 .idea
 node_modules
+
+# files
 npm-debug.log
+debug.log
