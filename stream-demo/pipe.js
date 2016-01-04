@@ -14,23 +14,25 @@ http.createServer(function (req, res) {
 }).listen(3000);
 
 function sendFile(file, res) {
-    file.on('readable', write);
-    file.on('end', function () {
-        res.end();
+    file.pipe(res);
+
+    // we can pipe to different writables
+    //file.pipe(process.stdout);
+
+    file.on('error', function (err) {
+        res.statusCode = 500;
+        res.end('Server Error');
+        console.error(err);
     });
 
-    function write() {
-        var fileContent = file.read();
+    file.on('open', function () {
+            console.log('open');
+        })
+        .on('close', function () {
+            console.log('close');
+        });
 
-        console.log('------ write -------');
-        console.log((fileContent || {}).length);
-
-        if(fileContent && !res.write(fileContent)) {
-            file.removeListener('readable', write);
-            res.once('drain', function () {
-                file.on('readable', write);
-                write();
-            });
-        }
-    }
+    res.on('close', function () {
+        file.destroy();
+    });
 }
