@@ -2,11 +2,10 @@ var http = require('http');
 var fs = require('fs');
 
 http.createServer(function (req, res) {
-    var info;
-
     if(req.url === '/') {
-        info = fs.readFileSync(__dirname + '/index.html');
-        res.end(info);
+        fs.readFile(__dirname + '/index.html', function (err, info) {
+            res.end(info);
+        });
     } else if (req.url === '/now') {
         res.end(new Date().toString());
     }
