@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "set NODE_PATH=.&& node server",
     "start-unix": "NODE_PATH=. node server",
-    "debug": "set DEBUG=server,server:*&& node web-server",
-    "deep-debug": "set NODE_DEBUG=\"http net\"&& node web-server"
+    "debug": "set DEBUG=server,server:*&& node web-server/echo",
+    "deep-debug": "set NODE_DEBUG=\"http net\"&& node web-server/echo"
   },
   "repository": {
     "type": "git",
