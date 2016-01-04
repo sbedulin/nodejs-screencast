@@ -8,14 +8,29 @@ http.createServer(function (req, res) {
     var htmlFile = path.normalize(__dirname + '/big.html');
 
     if(req.url === '/big.html') {
-        fs.readFile(htmlFile, function (err, content) {
-            if(err) {
-                res.statusCode = 500;
-                return res.end('Server Error');
-            }
-
-            res.setHeader('Content-Type', 'text/html; charset=utf-8');
-            res.end(content);
-        });
+        var file = new fs.ReadStream(htmlFile);
+        sendFile(file, res);
     }
 }).listen(3000);
+
+function sendFile(file, res) {
+    file.on('readable', write);
+    file.on('end', function () {
+        res.end();
+    });
+
+    function write() {
+        var fileContent = file.read();
+
+        console.log('------ write -------');
+        console.log((fileContent || {}).length);
+
+        if(fileContent && !res.write(fileContent)) {
+            file.removeListener('readable', write);
+            res.once('drain', function () {
+                file.on('readable', write);
+                write();
+            });
+        }
+    }
+}
