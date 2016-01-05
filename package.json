@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "debug": "SET DEBUG=nodejs-creencast:* & npm start"
+    "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& npm start"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -14,7 +14,9 @@
     "errorhandler": "^1.4.2",
     "express": "~4.13.1",
     "morgan": "~1.6.1",
+    "nconf": "^0.8.2",
     "nodemon": "^1.8.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "winston": "^2.1.1"
   }
 }
