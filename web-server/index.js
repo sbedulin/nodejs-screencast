@@ -1,5 +1,7 @@
 var http = require('http');
 var fs = require('fs');
+var argv = require('yargs').argv;
+var port = argv.port || 3000;
 
 http.createServer(function (req, res) {
     var index = __dirname + '/index.html';
@@ -28,4 +30,5 @@ http.createServer(function (req, res) {
     } else if (req.url === '/') {
         res.end(new Date().toString());
     }
-}).listen(3000);
+}).listen(port);
+console.log('listening on port %s', port);
