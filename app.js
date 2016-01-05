@@ -1,76 +1,30 @@
-var express = require('express');
-var app = express();
-
-var logger = require('libs/log')(module);
-//app.use(require('morgan')('combined', { stream: logger.stream }));
-
-// Middleware
-app.use(function (req, res, next) {
-    if(req.url === '/') {
-        res.end('Hello');
-    } else {
-        next();
-    }
-});
-
-app.use(function errorMiddleware(req, res, next) {
-    if(req.url === '/error') {
-        try {
-            ERROR();
-        } catch (e) {
-            next(new Error('whoops'));
-        }
-    } else {
-        next();
-    }
-});
-
-app.use(function (req, res, next) {
-    if(req.url === '/test') {
-        res.end('Test!');
-    } else {
-        next();
-    }
-});
-
-app.use(function (req, res) {
-    logger.info('Page "%s" Not Found', req.url);
-
-    res.status(404)
-       .send('Page Not Found');
-});
-
-app.use(function (err, req, res, next) {
-    if (app.get('env') === 'development') {
-        var errorHandler = require('errorhandler')();
-        errorHandler(err, req, res, next);
-    }
-});
-
-/* // NOT NEEDED FOR NOW
-
 var path = require('path');
 var favicon = require('serve-favicon');
 
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var express = require('express');
+var app = express();
+var isDevelopment = app.get('env') === 'development';
+
+var logger = require('libs/log')(module);
+// optionally combine loggers
+//app.use(require('morgan')('combined', { stream: logger.stream }));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'templates'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(require('morgan')(isDevelopment ? 'dev' : 'default'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -83,7 +37,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (isDevelopment) {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -102,7 +56,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-*/
 
 module.exports = app;
