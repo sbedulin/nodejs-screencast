@@ -13,6 +13,7 @@ var logger = require('libs/log')(module);
 //app.use(require('morgan')('combined', { stream: logger.stream }));
 
 // view engine setup
+app.engine('ejs', require('ejs-mate'));
 app.set('views', path.join(__dirname, 'templates'));
 app.set('view engine', 'ejs');
 

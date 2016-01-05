@@ -2,6 +2,7 @@
 .git
 .idea
 node_modules
+public/vendor/bower_components
 
 # files
 npm-debug.log
