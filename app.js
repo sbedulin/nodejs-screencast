@@ -37,8 +37,8 @@ app.use(function (req, res) {
 
 app.use(function (err, req, res, next) {
     if (app.get('env') === 'development') {
-        res.status(500)
-           .send('Nicely looking error');
+        var errorHandler = require('errorhandler')();
+        errorHandler(err, req, res, next);
     }
 });
 
