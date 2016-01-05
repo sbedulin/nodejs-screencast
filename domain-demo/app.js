@@ -14,8 +14,6 @@ serverDomain.on('error', function (err) {
 
 serverDomain.run(function () {
     var http = require('http');
-    var handler = require('./handler');
-    // var database = require('mongodb');
 
     server = http.createServer(function (req, res) {
         var reqDomain = domain.create();
@@ -30,7 +28,7 @@ serverDomain.run(function () {
         });
 
         reqDomain.run(function () {
-            handler(req, res);
+            require('./handler')(req, res);
         });
     });
 
