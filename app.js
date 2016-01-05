@@ -1,4 +1,49 @@
 var express = require('express');
+var app = express();
+
+// Middleware
+app.use(function (req, res, next) {
+    if(req.url === '/') {
+        res.end('Hello');
+    } else {
+        next();
+    }
+});
+
+app.use(function errorMiddleware(req, res, next) {
+    if(req.url === '/error') {
+        try {
+            ERROR();
+        } catch (e) {
+            next(new Error('whoops'));
+        }
+    } else {
+        next();
+    }
+});
+
+app.use(function (req, res, next) {
+    if(req.url === '/test') {
+        res.end('Test!');
+    } else {
+        next();
+    }
+});
+
+app.use(function (req, res) {
+    res.status(404)
+       .send('Page Not Found');
+});
+
+app.use(function (err, req, res, next) {
+    if (app.get('env') === 'development') {
+        res.status(500)
+           .send('Nicely looking error');
+    }
+});
+
+/* // NOT NEEDED FOR NOW
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -7,8 +52,6 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,5 +99,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
+*/
 
 module.exports = app;
