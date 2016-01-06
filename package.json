@@ -27,6 +27,7 @@
     "nconf": "^0.8.2",
     "nodemon": "^1.8.1",
     "serve-favicon": "~2.3.0",
-    "winston": "^2.1.1"
+    "winston": "^2.1.1",
+    "ws": "^1.0.1"
   }
 }
