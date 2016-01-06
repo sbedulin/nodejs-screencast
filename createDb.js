@@ -1,5 +1,4 @@
 var mongoose = require('libs/mongoose');
-var User = require('models/user').User;
 var async = require('async');
 
 // 1. drop db
@@ -9,10 +8,10 @@ var async = require('async');
 async.series([
     open,
     dropDatabase,
-    createUsers,
-    close
+    requireModels,
+    createUsers
 ], function ( err, results ) {
-    console.log(arguments);
+    mongoose.disconnect();
 });
 
 function open(callback) {
@@ -24,6 +23,10 @@ function dropDatabase(callback) {
     db.dropDatabase(callback);
 }
 
+function requireModels(callback) {
+    require('models/user').User.on('index', callback);
+}
+
 function createUsers(callback) {
     var users = [
         { username: 'Vasya', password: 'supervasya' },
@@ -32,11 +35,9 @@ function createUsers(callback) {
     ];
 
     async.each(users, function ( userData, callback ) {
-        var user = new User(userData);
+        console.log('saving user');
+
+        var user = new mongoose.models.User(userData);
         user.save(callback);
     }, callback);
-}
-
-function close(callback) {
-    mongoose.disconnect(callback);
 }
