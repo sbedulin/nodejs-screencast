@@ -1,4 +1,8 @@
+var config = require('config');
 var path = require('path');
+var HttpError = require('error').HttpError;
+var errorhandler = require('errorhandler');
+var mongoose = require('libs/mongoose');
 var favicon = require('serve-favicon');
 
 var cookieParser = require('cookie-parser');
@@ -7,9 +11,8 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var isDevelopment = app.get('env') === 'development';
-var HttpError = require('error').HttpError;
-var errorhandler = require('errorhandler');
 
+// logging setup
 var logger = require('libs/log')(module);
 // optionally combine loggers
 //app.use(require('morgan')('combined', { stream: logger.stream }));
@@ -25,8 +28,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// session setup
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+app.use(session({
+    secret: config.get('session:secret'),
+    key: config.get('session:key'),
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+app.use(function (req, res, next) {
+    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+    res.send('Visits: ' + req.session.numberOfVisits);
+});
+
 app.use(require('middleware/sendHttpError'));
 
+// routes
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use(express.static(path.join(__dirname, 'public')));
