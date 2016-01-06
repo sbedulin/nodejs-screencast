@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& npm start"
+    "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& npm start",
+    "release": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=production& SET NODE_PATH=.& npm start",
+    "createDb": "SET NODE_PATH=.& node createDb"
   },
   "dependencies": {
     "async": "^1.5.1",
