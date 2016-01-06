@@ -1,8 +1,7 @@
-var express = require('express');
-var router = express.Router();
-
-router.get('/', require('./frontpage').get);
-
-router.get('/chat', require('./chat').get);
-
-module.exports = router;
+module.exports = function (app) {
+    app.use('/', require('./frontpage'));
+    app.use('/users', require('./users'));
+    app.use('/chat', require('./chat'));
+    app.use('/login', require('./login'));
+    app.use('/logout', require('./logout'));
+};
