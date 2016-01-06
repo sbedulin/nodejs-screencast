@@ -7,6 +7,7 @@
     "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& npm start"
   },
   "dependencies": {
+    "async": "^1.5.1",
     "body-parser": "~1.13.2",
     "cookie-parser": "~1.3.5",
     "crypto": "0.0.3",

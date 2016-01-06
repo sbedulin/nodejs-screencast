@@ -1,14 +1,38 @@
+var mongoose = require('libs/mongoose');
 var User = require('models/user').User;
+var async = require('async');
 
-var user = new User({
-    username: 'Tester',
-    password: 'secret'
-});
+// 1. drop db
+// 2. create & save 3 users
+// 3. close connection
 
-user.save( function ( err, user, affected ) {
-    if(err) throw err;
+mongoose.connection.on('open', function () {
+    var db = mongoose.connection.db;
+    db.dropDatabase( function ( err ) {
+        if(err) throw err;
 
-    User.findOne({ username: 'Tester' }, function ( err, user ) {
-        console.log(user);
+        async.parallel([
+            function (cb) {
+                var vasya = new User({ username: 'Vasya', password: 'supervasya' });
+                vasya.save(function ( err ) {
+                    cb(err, vasya);
+                });
+            },
+            function (cb) {
+                var petya = new User({ username: 'Petya', password: '123' });
+                petya.save(function ( err ) {
+                    cb(err, petya);
+                });
+            },
+            function (cb) {
+                var admin = new User({ username: 'admin', password: 'thetruehero' });
+                admin.save(function ( err ) {
+                    cb(err, admin);
+                });
+            }
+        ], function (err, results) {
+            console.log(arguments);
+            mongoose.disconnect();
+        });
     });
 });
