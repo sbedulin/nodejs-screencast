@@ -1,8 +1,18 @@
 <nav class="navbar navbar-default" role="navigation">
     <ul class="nav navbar-nav pull-left">
-        <li><a href="/">Главная</a></li>
+        <li><a href="/">Main</a></li>
+        <% if(user) { %>
+        <li><a href="/chat">Chat</a></li>
+        <% } %>
     </ul>
     <ul class="nav navbar-nav pull-right">
-        <li><a href="/login">Войти</a></li>
+        <% if(user) { %>
+        <li>
+            <a href="javascript:void(0)"
+               onclick="$('<form method=POST action=/logout>').submit()">Logout</a>
+        </li>
+        <% } else { %>
+        <li><a href="/login">Enter</a></li>
+        <% } %>
     </ul>
 </nav>

@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
                 return next(new HttpError(403, err.message));
             }
             return next(err)
-        };
+        }
 
         req.session.user = user._id;
         res.send({});
