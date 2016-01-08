@@ -23,7 +23,15 @@
     var ul = $('#room ul');
 
     var socket = io()
-        .on('chat message', printMessage)
+        .on('chat join', function (username) {
+            printMessage(username + ' entered chat');
+        })
+        .on('chat leave', function (username) {
+            printMessage(username + ' left chat');
+        })
+        .on('chat message', function (username, message) {
+            printMessage(username + ' > ' + message);
+        })
         .on('connect', function () {
             printStatus('connected');
             form.on('submit', sendMessage);
@@ -38,7 +46,7 @@
     function sendMessage() {
         var text = input.val();
         socket.emit('chat message', text, function() {
-            printMessage(text);
+            printMessage('me > ' + text);
         });
 
         input.val('');

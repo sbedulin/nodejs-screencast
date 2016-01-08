@@ -2,7 +2,6 @@ var config = require('config');
 var path = require('path');
 var HttpError = require('error').HttpError;
 var errorhandler = require('errorhandler');
-var mongoose = require('libs/mongoose');
 var favicon = require('serve-favicon');
 
 var cookieParser = require('cookie-parser');
@@ -30,13 +29,13 @@ app.use(cookieParser());
 
 // session setup
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var sessionStore = require('libs/sessionStore');
 app.use(session({
     secret: config.get('session:secret'),
     key: config.get('session:key'),
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    store: sessionStore
 }));
 
 app.use(require('middleware/sendHttpError'));
