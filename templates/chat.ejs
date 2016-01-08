@@ -4,7 +4,7 @@
 <p class="lead">Chat will be here.</p>
 
 <p>Welcome, <%=user.get('username')%> !</p>
-<script src="/socket.io/socket.io.js"></script>
+<script src="/vendor/bower_components/socket.io-client/socket.io.js"></script>
 
 <div id="room">
     <ul></ul>
@@ -18,26 +18,38 @@
 </div>
 
 <script>
-    var socket = io();
-
+    var input = $('#room input');
     var form = $('#room form');
     var ul = $('#room ul');
 
-    function addMessage(text) {
-        $('<li>', { text: text }).appendTo(ul);
-    }
-
-    form.submit(function () {
-        var input = $(this).find(':input');
-        var text = input.val();
-        input.val('');
-
-        socket.emit('chat message', text, function () {
-            addMessage(text);
+    var socket = io()
+        .on('chat message', printMessage)
+        .on('connect', function () {
+            printStatus('connected');
+            form.on('submit', sendMessage);
+            input.prop('disabled', false);
+        })
+        .on('disconnect', function() {
+            printStatus('lost connection');
+            form.off('submit', sendMessage);
+            input.prop('disabled', true);
         });
 
-        return false;
-    });
+    function sendMessage() {
+        var text = input.val();
+        socket.emit('chat message', text, function() {
+            printMessage(text);
+        });
 
-    socket.on('chat message', addMessage);
+        input.val('');
+        return false;
+    }
+
+    function printStatus(status) {
+        $('<li>').append($('<i>').text(status)).appendTo(ul);
+    }
+
+    function printMessage(text) {
+        $('<li>', { text: text }).appendTo(ul);
+    }
 </script>

@@ -12,7 +12,7 @@ function getLogger(module) {
                 label: path
             })
         ]
-    });
+});
 
     logger.stream = {
         write: function(message, encoding){
