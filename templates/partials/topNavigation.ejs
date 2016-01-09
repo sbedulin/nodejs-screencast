@@ -8,9 +8,15 @@
     <ul class="nav navbar-nav pull-right">
         <% if(user) { %>
         <li>
-            <a href="javascript:void(0)"
-               onclick="$('<form method=POST action=/logout>').submit()">Logout</a>
+            <a id="logout" href="javascript:void(0)">Logout</a>
         </li>
+
+        <script>
+            $('#logout').click( function () {
+                $.post('/logout');
+            });
+        </script>
+
         <% } else { %>
         <li><a href="/login">Enter</a></li>
         <% } %>

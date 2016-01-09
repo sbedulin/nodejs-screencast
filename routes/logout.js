@@ -6,7 +6,7 @@ router.post('/', function (req, res, next) {
     var io = req.app.get('io');
 
     req.session.destroy(function (err) {
-        io.reloadSession(sid);
+        io.disconnectSession(sid);
 
         if(err) return next(err);
 

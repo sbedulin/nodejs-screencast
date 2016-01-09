@@ -115,23 +115,13 @@ module.exports = function (server) {
         });
     });
 
-    io.reloadSession = function (sid) {
-        for(var socketId in io.engine.clients) {
-            var client = io.engine.clients[socketId];
-            if(client.request.session.id === sid) {
-                loadSession(sid, function (err, session) {
-                    if(err) {
-                        client.emit('error', 'server error');
-                        return client.socket.close();
-                    }
-
-                    if(!session) {
-                        client.emit('error', 'unauthorized');
-                        return client.socket.close();
-                    }
-
-                    client.request.session = session;
-                });
+    io.disconnectSession = function (sid) {
+        var allSockets = io.sockets.sockets;
+        for(var socketId in allSockets) {
+            var socket = allSockets[socketId];
+            if(socket && socket.request && socket.request.session.id === sid) {
+                socket.emit('logout');
+                socket.onclose();
             }
         }
     };

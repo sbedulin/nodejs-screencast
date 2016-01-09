@@ -41,6 +41,9 @@
             printStatus('lost connection');
             form.off('submit', sendMessage);
             input.prop('disabled', true);
+        })
+        .on('logout', function () {
+            location.href = '/';
         });
 
     function sendMessage() {
