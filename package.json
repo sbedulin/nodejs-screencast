@@ -1,11 +1,11 @@
 {
   "name": "nodejs-creencast",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& npm start",
-    "release": "SET NODE_ENV=production& SET NODE_PATH=.& npm start",
+    "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& nodemon ./bin/www",
+    "release": "SET NODE_ENV=production& SET NODE_PATH=.& node ./bin/www",
     "createDb": "SET NODE_PATH=.& node createDb"
   },
   "dependencies": {
@@ -32,5 +32,8 @@
     "socket.io": "^1.4.0",
     "winston": "^2.1.1",
     "ws": "^1.0.1"
+  },
+  "engines": {
+    "node": "4.1.2"
   }
 }

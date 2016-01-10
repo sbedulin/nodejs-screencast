@@ -1,5 +1,4 @@
 {
-    "port": 3004,
     "mongoose": {
         "uri": "mongodb://MongoLab-w:8Hrz9N1r1LUjFelpgmFZKS0ZKI0iZ_lzoOeUAI_o0aw-@ds056727.mongolab.com:56727/MongoLab-w",
         "options": {
