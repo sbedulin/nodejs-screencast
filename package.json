@@ -6,11 +6,13 @@
     "start": "node ./bin/www",
     "debug": "SET DEBUG=nodejs-creencast:* & SET NODE_ENV=development& SET NODE_PATH=.& nodemon ./bin/www",
     "release": "SET NODE_ENV=production& SET NODE_PATH=.& node ./bin/www",
-    "createDb": "SET NODE_PATH=.& node createDb"
+    "createDb": "SET NODE_PATH=.& node createDb",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "async": "^1.5.1",
     "body-parser": "~1.13.2",
+    "bower": "^1.7.2",
     "connect": "^3.4.0",
     "connect-mongo": "^1.1.0",
     "cookie": "^0.2.3",
